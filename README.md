@@ -34,7 +34,7 @@ Retro Rush is a high-speed, synthwave-inspired arcade racing game where players 
 
 ## 🌍 Landing Page
 Check out the official **Retro Rush** landing page for more details and updates:
-[Retro Rush Landing Page](YOUR_DEPLOYED_SITE_LINK)
+[Retro Rush Landing Page](https://yusufabuegila.wixsite.com/retrorush)
 
 ## 🏆 Challenges Overcome
 - **AI Optimization**: Efficient police pursuit without performance issues.
