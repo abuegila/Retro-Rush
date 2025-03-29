@@ -1,65 +1,65 @@
 ﻿using UnityEngine;
 
 #pragma warning disable 649
+
 namespace UnityStandardAssets.Utility
 {
-	public class SmoothFollow : MonoBehaviour
-	{
+    // Smoothly follows a target with adjustable height and rotation damping.
+    public class SmoothFollow : MonoBehaviour
+    {
+        // The target we are following (e.g., the player or a specific camera target).
+        [SerializeField] private Transform target;
+        
+        // The horizontal distance between the camera and the target.
+        [SerializeField] private float distance = 10.0f;
 
-		// The target we are following
-		[SerializeField]
-		private Transform target;
-		// The distance in the x-z plane to the target
-		[SerializeField]
-		private float distance = 10.0f;
-		// the height we want the camera to be above the target
-		[SerializeField]
-		private float height = 5.0f;
+        // The vertical height of the camera above the target.
+        [SerializeField] private float height = 5.0f;
 
-		[SerializeField]
-		private float rotationDamping;
-		[SerializeField]
-		private float heightDamping;
+        // How smoothly the camera rotation adjusts to the target's rotation.
+        [SerializeField] private float rotationDamping;
 
-		// Use this for initialization
-		void Start() 
-		{
-			target = GameObject.FindGameObjectWithTag("CameraTarget").transform;
-		}
+        // How smoothly the camera adjusts to height changes.
+        [SerializeField] private float heightDamping;
 
-		// Update is called once per frame
-		void LateUpdate()
-		{
-			// Early out if we don't have a target
-			if (!target)
-				return;
+        // Initialize the target reference.
+        private void Start() 
+        {
+            // Find the object with the tag "CameraTarget" and assign it as the target.
+            target = GameObject.FindGameObjectWithTag("CameraTarget").transform;
+        }
 
-			// Calculate the current rotation angles
-			var wantedRotationAngle = target.eulerAngles.y;
-			var wantedHeight = target.position.y + height;
+        // LateUpdate ensures the camera movement happens after all other updates.
+        private void LateUpdate()
+        {
+            // Exit if the target is not set.
+            if (!target) return;
 
-			var currentRotationAngle = transform.eulerAngles.y;
-			var currentHeight = transform.position.y;
+            // Get the target’s desired rotation and height.
+            float wantedRotationAngle = target.eulerAngles.y;
+            float wantedHeight = target.position.y + height;
 
-			// Damp the rotation around the y-axis
-			currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
+            // Get the camera’s current rotation and height.
+            float currentRotationAngle = transform.eulerAngles.y;
+            float currentHeight = transform.position.y;
 
-			// Damp the height
-			currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
+            // Smoothly interpolate rotation around the Y-axis.
+            currentRotationAngle = Mathf.LerpAngle(currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
 
-			// Convert the angle into a rotation
-			var currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
+            // Smoothly interpolate height to follow the target.
+            currentHeight = Mathf.Lerp(currentHeight, wantedHeight, heightDamping * Time.deltaTime);
 
-			// Set the position of the camera on the x-z plane to:
-			// distance meters behind the target
-			transform.position = target.position;
-			transform.position -= currentRotation * Vector3.forward * distance;
+            // Convert the rotation angle into a quaternion rotation.
+            Quaternion currentRotation = Quaternion.Euler(0, currentRotationAngle, 0);
 
-			// Set the height of the camera
-			transform.position = new Vector3(transform.position.x ,currentHeight , transform.position.z);
+            // Update the camera position behind the target.
+            transform.position = target.position - (currentRotation * Vector3.forward * distance);
 
-			// Always look at the target
-			transform.LookAt(target);
-		}
-	}
+            // Adjust the camera height smoothly.
+            transform.position = new Vector3(transform.position.x, currentHeight, transform.position.z);
+
+            // Ensure the camera always looks at the target.
+            transform.LookAt(target);
+        }
+    }
 }
