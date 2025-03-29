@@ -27,7 +27,7 @@ Retro Rush is a high-speed, synthwave-inspired arcade racing game where players 
 3. Press **Play** in the Unity editor or build for your preferred platform.
 
 ## 🎥 Demo
-[![Logo]](Assets/D1.webp)
+![Logo](Assets/D1.webp)
 [![Watch the Gameplay](https://img.youtube.com/vi/iXqts__eX60/maxresdefault.jpg)](https://youtu.be/iXqts__eX60)
 
 ## 🖼️ Screenshots
