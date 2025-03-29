@@ -21,7 +21,7 @@ Retro Rush is a high-speed, synthwave-inspired arcade racing game where players 
 ## 📖 Installation & Setup
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/retro-rush.git
+   git clone https://github.com/abuegila/retro-rush.git
    ```
 2. Open the project in Unity (Recommended version: Unity 2021+).
 3. Press **Play** in the Unity editor or build for your preferred platform.
