@@ -1,37 +1,52 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+// AI Car Chase Behavior
 public class CarChaseAI : MonoBehaviour
 {
+    // Reference to the target (player) the AI will chase
     public Transform target;
+
+    // Reference to the AI car's movement controller
     public CarController carController;
+
+    // The minimum distance before the AI starts chasing the player
     public float chaseDistance = 2f;
+
     private void Awake()
     {
+        // Get the CarController component attached to this GameObject
         carController = GetComponent<CarController>();
     }
+
     private void Update()
     {
+        // Calculate the distance between the AI car and the target (player)
         float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        // If the target is beyond the chase distance, initiate pursuit
         if (distanceToTarget > chaseDistance)
         {
-            // Call a function to make the AI car chase the player
             ChasePlayer();
         }
     }
+
     private void ChasePlayer()
     {
-        // Calculate the direction to the player
+        // Calculate the direction vector from the AI car to the player
         Vector3 directionToPlayer = (target.position - transform.position).normalized;
-        // Calculate the dot product to determine if the player is on the right or left
+
+        // Determine if the player is to the left or right of the AI car
         float dotProduct = Vector3.Dot(transform.right, directionToPlayer);
-        // Set the horizontal input based on the player's position
+
+        // Set horizontal input: positive if player is to the right, negative if to the left
         float horizontalInput = (dotProduct > 0) ? 1f : -1f;
-        // Set the vertical input based on the direction to the player
+
+        // Determine forward input based on alignment with player's direction
         float verticalInput = Mathf.Clamp01(Vector3.Dot(transform.forward, directionToPlayer));
-        // Assuming the CarController script has a function named GetInput
-        // Adjust the magnitude of verticalInput based on your desired speed
-        // Call the GetInput function on the carController
+
+        // Send the calculated input values to the AI car's movement system
         carController.GetAIInput(verticalInput, horizontalInput);
     }
 }
